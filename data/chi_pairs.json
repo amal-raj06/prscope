@@ -1,0 +1,393 @@
+{
+  "stats": {
+    "total_pairs": 38,
+    "conflict": 4,
+    "dependency": 4,
+    "independent": 30,
+    "skipped_higher_order_conflicts": 1,
+    "skipped_other_relation_types": 1,
+    "total_prs_in_pool": 33
+  },
+  "pairs": [
+    {
+      "pr_a": "PR-19",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-19.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-15.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-31",
+      "pr_b": "PR-05",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-31.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-05.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-31.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-14 depends_on PR-31",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-32",
+      "pr_b": "PR-18",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-32.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-18.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-32 depends_on PR-18",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-33",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-33.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-32.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-33 depends_on PR-32",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-13",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-13.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-20 depends_on PR-13",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-11",
+      "pr_b": "PR-23",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-11.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-23.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-12",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-12.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-22",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-22.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-26",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-26.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-26",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-26.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-09",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-09.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-05",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-05.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-08",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-08.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-12",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-12.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-10",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-10.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-23",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-23.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-24",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-24.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-19",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-19.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-19",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-19.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-06",
+      "pr_b": "PR-10",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-06.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-10.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-13",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-13.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-18",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-18.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-09",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-09.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-15.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-10",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-10.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-25",
+      "pr_b": "PR-29",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-25.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-29.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-09",
+      "pr_b": "PR-22",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-09.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-22.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-22",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-22.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-15",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-15.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-10",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-10.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-07",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-07.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-17",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-17.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\chi\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    }
+  ]
+}

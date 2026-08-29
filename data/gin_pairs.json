@@ -1,0 +1,403 @@
+{
+  "stats": {
+    "total_pairs": 39,
+    "conflict": 2,
+    "dependency": 7,
+    "independent": 30,
+    "skipped_higher_order_conflicts": 0,
+    "skipped_other_relation_types": 1,
+    "total_prs_in_pool": 33
+  },
+  "pairs": [
+    {
+      "pr_a": "PR-27",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-27.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-28.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-10",
+      "pr_b": "PR-23",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-10.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-23.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-10 depends_on PR-23",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-26",
+      "pr_b": "PR-25",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-26.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-25.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-25",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-25.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-14 depends_on PR-25",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-17",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-17.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-01 depends_on PR-17",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-07",
+      "pr_b": "PR-01",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-07.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-01.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-07 depends_on PR-01",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-07",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-07.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-08 depends_on PR-07",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-20",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-20.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-04 depends_on PR-20",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-04",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-04.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-03 depends_on PR-04",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-12",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-12.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-22",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-22.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-26",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-26.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-26",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-26.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-09",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-09.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-05",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-05.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-08",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-08.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-12",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-12.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-10",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-10.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-23",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-23.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-24",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-24.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-19",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-19.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-19",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-19.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-06",
+      "pr_b": "PR-10",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-06.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-10.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-13",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-13.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-18",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-18.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-09",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-09.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-15.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-10",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-10.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-25",
+      "pr_b": "PR-29",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-25.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-29.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-09",
+      "pr_b": "PR-22",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-09.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-22.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-33",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-33.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-22",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-22.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-15",
+      "pr_b": "PR-28",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-15.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-28.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-10",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-10.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-07",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-07.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\gin\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    }
+  ]
+}

@@ -1,0 +1,393 @@
+{
+  "stats": {
+    "total_pairs": 38,
+    "conflict": 3,
+    "dependency": 5,
+    "independent": 30,
+    "skipped_higher_order_conflicts": 1,
+    "skipped_other_relation_types": 1,
+    "total_prs_in_pool": 32
+  },
+  "pairs": [
+    {
+      "pr_a": "PR-05",
+      "pr_b": "PR-17",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-05.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-17.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-06",
+      "pr_b": "PR-05",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-06.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-05.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-06 depends_on PR-05",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-12",
+      "pr_b": "PR-18",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-12.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-18.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-30.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-14 depends_on PR-30",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-20",
+      "pr_b": "PR-14",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-20.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-14.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-20 depends_on PR-14",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-27",
+      "pr_b": "PR-14",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-27.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-14.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-27 depends_on PR-14",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-23",
+      "pr_b": "PR-29",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-23.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-29.diff",
+      "label": "DEPENDENCY",
+      "direction": "PR-23 depends_on PR-29",
+      "source_relation_type": "depends_on",
+      "visibility": "public"
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-15.diff",
+      "label": "CONFLICT",
+      "direction": null,
+      "source_relation_type": "forbidden_set",
+      "visibility": "hidden"
+    },
+    {
+      "pr_a": "PR-05",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-05.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-15.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-27",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-27.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-17",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-17.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-13",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-13.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-25",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-25.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-21",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-21.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-18",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-18.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-07",
+      "pr_b": "PR-19",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-07.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-19.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-18",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-18.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-16",
+      "pr_b": "PR-21",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-16.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-21.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-12",
+      "pr_b": "PR-24",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-12.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-24.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-19",
+      "pr_b": "PR-26",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-19.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-26.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-13",
+      "pr_b": "PR-25",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-13.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-25.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-18",
+      "pr_b": "PR-20",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-18.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-20.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-13",
+      "pr_b": "PR-27",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-13.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-27.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-02",
+      "pr_b": "PR-31",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-02.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-31.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-09",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-09.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-11",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-11.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-15.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-08",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-08.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-27",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-27.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-14",
+      "pr_b": "PR-16",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-14.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-16.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-04",
+      "pr_b": "PR-24",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-04.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-24.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-21",
+      "pr_b": "PR-22",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-21.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-22.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-06",
+      "pr_b": "PR-32",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-06.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-32.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-01",
+      "pr_b": "PR-09",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-01.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-09.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-03",
+      "pr_b": "PR-15",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-03.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-15.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-25",
+      "pr_b": "PR-30",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-25.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-30.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-23",
+      "pr_b": "PR-26",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-23.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-26.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-11",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-11.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    },
+    {
+      "pr_a": "PR-08",
+      "pr_b": "PR-22",
+      "diff_a_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-08.diff",
+      "diff_b_path": "BulkPR-Bench-Release\\data\\pools\\adk-go\\diffs\\PR-22.diff",
+      "label": "INDEPENDENT",
+      "direction": null,
+      "source_relation_type": "no_constraint_found",
+      "visibility": null
+    }
+  ]
+}
