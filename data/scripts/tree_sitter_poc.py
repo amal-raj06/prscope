@@ -13,7 +13,7 @@ BulkPR-Bench diffs before we build the full relation engine on top.
 Usage:
     python tree_sitter_poc.py --dataset data/combined_python_pairs.json
 """
-
+import sys
 import json
 import re
 import argparse
@@ -21,6 +21,8 @@ from pathlib import Path
 
 import tree_sitter_python as tspython
 from tree_sitter import Language, Parser
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from engine.relation_engine import classify_pair
 
 
 # ---------- Tree-sitter setup ----------
@@ -158,28 +160,9 @@ def find_shared_symbols(symbols_a, symbols_b, contexts_a, contexts_b):
         "shared_diff_context_lines": sorted(shared_context),
     }
 
-def extract_function_name_from_signature(line):
-    m = re.match(r'\s*(?:async\s+)?def\s+(\w+)', line)
-    return m.group(1) if m else None
 
-def get_touched_symbols(symbols, contexts):
-    touched = set(symbols["functions"])
-    for ctx_line in contexts:
-        name = extract_function_name_from_signature(ctx_line)
-        if name:
-            touched.add(name)
-    return touched
 
-def check_overlap(symbols_a, contexts_a, symbols_b, contexts_b):
-    a_touched = get_touched_symbols(symbols_a, contexts_a)
-    b_touched = get_touched_symbols(symbols_b, contexts_b)
-    a_calls = set(symbols_a["call_leaf_names"])
-    b_calls = set(symbols_b["call_leaf_names"])
 
-    return {
-        "a_touched_b_calls": sorted(a_touched & b_calls),
-        "b_touched_a_calls": sorted(b_touched & a_calls),
-    }
 
 def main():
     ap = argparse.ArgumentParser()
@@ -207,12 +190,10 @@ def main():
         symbols_b, contexts_b = analyze_pr_diff(example["diff_b_path"], f"PR {example['pr_b']}")
 
         
-        overlap = check_overlap(symbols_a, contexts_a, symbols_b, contexts_b)
-        print(f"\n  >>> Overlap check (seed of the relation engine):")
-        print(f"      PR A touches something PR B calls : {overlap['a_touched_b_calls'] or '(none)'}")
-        print(f"      PR B touches something PR A calls : {overlap['b_touched_a_calls'] or '(none)'}")
-        print(f"      Ground-truth label for this pair   : {label}")
-
+        result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b)
+        print(f"\n  >>> Relation engine result:")
+        print(f"      Predicted label: {result.label}   (evidence: {sorted(result.conflict_evidence or result.dependency_evidence)})")
+        print(f"      Ground-truth label: {label}")
 
 if __name__ == "__main__":
     main()
