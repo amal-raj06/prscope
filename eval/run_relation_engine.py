@@ -31,16 +31,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from engine.relation_engine import classify_pair
 # Re-uses the exact same diff-parsing + Tree-sitter extraction functions
 # your POC already validated — no reimplementation, no drift.
-from data.scripts.tree_sitter_poc import extract_added_code_and_context, extract_symbols
+from data.scripts.tree_sitter_poc import extract_code_and_context, extract_symbols
 
 
 LABELS = ["CONFLICT", "DEPENDENCY", "INDEPENDENT"]
 
 
 def analyze_diff(diff_path: str):
-    code, contexts = extract_added_code_and_context(diff_path)
-    symbols = extract_symbols(code)
-    return symbols, contexts
+    added_code, removed_code, contexts = extract_code_and_context(diff_path)
+    symbols_added = extract_symbols(added_code)
+    symbols_removed = extract_symbols(removed_code)
+    return symbols_added, symbols_removed, contexts
 
 
 def evaluate(dataset_path: str):
@@ -55,9 +56,10 @@ def evaluate(dataset_path: str):
 
     for i, pair in enumerate(pairs):
         try:
-            symbols_a, contexts_a = analyze_diff(pair["diff_a_path"])
-            symbols_b, contexts_b = analyze_diff(pair["diff_b_path"])
-            result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b)
+            symbols_a, removed_a, contexts_a = analyze_diff(pair["diff_a_path"])
+            symbols_b, removed_b, contexts_b = analyze_diff(pair["diff_b_path"])
+            result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b,
+                                    removed_symbols_a=removed_a, removed_symbols_b=removed_b)
         except Exception as e:
             errors.append({"index": i, "pool": pair.get("pool"),
                             "pr_a": pair["pr_a"], "pr_b": pair["pr_b"], "error": str(e)})

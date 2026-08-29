@@ -32,17 +32,31 @@ parser = Parser(PY_LANGUAGE)
 
 # ---------- Diff parsing helpers ----------
 
-def extract_added_code_and_context(diff_path: str):
+def extract_code_and_context(diff_path: str):
     """
     Reads a unified .diff file and returns:
-      - reconstructed_code: all '+' (added) lines, concatenated, for AST parsing
+      - added_code: all '+' (added) lines, concatenated, for AST parsing
+      - removed_code: all '-' (removed) lines, concatenated, for AST parsing
       - hunk_contexts: the function/class signature git shows after each @@ header
                         (git includes nearby enclosing-function context automatically)
+
+    Parsing removed_code lets us catch a case added-lines-only parsing
+    can NEVER see: a PR that deletes or renames a function entirely
+    (rather than editing its body) — that only shows up in '-' lines.
+
+    NOTE: a version of this also scanned every line in the hunk BODY
+    (not just the header) for module-level constant/collection
+    assignments like '__all__ = [', to catch cases where that
+    assignment line itself was unchanged context rather than an added/
+    removed line. That was REVERTED — see relation_engine.py's
+    extract_symbol_name_from_signature docstring for why (it hurt
+    precision more than it helped recall on full-dataset evaluation).
     """
     text = Path(diff_path).read_text(encoding="utf-8", errors="ignore")
     lines = text.splitlines()
 
     added_lines = []
+    removed_lines = []
     hunk_contexts = []
 
     hunk_header_re = re.compile(r"^@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@\s*(.*)$")
@@ -58,9 +72,12 @@ def extract_added_code_and_context(diff_path: str):
             continue
         if line.startswith("+"):
             added_lines.append(line[1:])  # strip the leading '+'
+        elif line.startswith("-"):
+            removed_lines.append(line[1:])  # strip the leading '-'
 
-    reconstructed_code = "\n".join(added_lines)
-    return reconstructed_code, hunk_contexts
+    added_code = "\n".join(added_lines)
+    removed_code = "\n".join(removed_lines)
+    return added_code, removed_code, hunk_contexts
 
 
 # ---------- Tree-sitter extraction ----------
@@ -121,7 +138,7 @@ def extract_symbols(code: str):
 
 def analyze_pr_diff(diff_path: str, label: str):
     print(f"\n  --- {label}: {diff_path} ---")
-    code, contexts = extract_added_code_and_context(diff_path)
+    added_code, removed_code, contexts = extract_code_and_context(diff_path)
 
     if contexts:
         print(f"  Enclosing function/class context (from diff hunk headers):")
@@ -130,38 +147,20 @@ def analyze_pr_diff(diff_path: str, label: str):
     else:
         print("  (no enclosing-function context found in diff headers)")
 
-    symbols = extract_symbols(code)
-    print(f"  Functions defined/touched : {symbols['functions'] or '(none found)'}")
-    print(f"  Classes defined/touched   : {symbols['classes'] or '(none found)'}")
-    print(f"  Function calls found      : {symbols['calls'] or '(none found)'}")
-    print(f"  Imports found             : {symbols['imports'] or '(none found)'}")
+    symbols_added = extract_symbols(added_code)
+    symbols_removed = extract_symbols(removed_code)
 
-    return symbols, contexts
+    print(f"  Functions defined/touched : {symbols_added['functions'] or '(none found)'}")
+    print(f"  Classes defined/touched   : {symbols_added['classes'] or '(none found)'}")
+    print(f"  Function calls found      : {symbols_added['calls'] or '(none found)'}")
+    print(f"  Imports found             : {symbols_added['imports'] or '(none found)'}")
 
+    removed_defs = (set(symbols_removed["functions"]) | set(symbols_removed["classes"])) - \
+                   (set(symbols_added["functions"]) | set(symbols_added["classes"]))
+    if removed_defs:
+        print(f"  Functions/classes DELETED (in removed lines, not re-added) : {sorted(removed_defs)}")
 
-def find_shared_symbols(symbols_a, symbols_b, contexts_a, contexts_b):
-    """
-    Very simple overlap check: does PR A touch/define something that
-    PR B also touches or calls? This is the seed of the relation engine
-    we'll build in the next step — not the final logic yet.
-    """
-    a_all = set(symbols_a["functions"]) | set(symbols_a["classes"])
-    b_all = set(symbols_b["functions"]) | set(symbols_b["classes"])
-    b_calls = set(symbols_b["call_leaf_names"])
-    a_calls = set(symbols_a["call_leaf_names"])
-
-    a_defines_b_calls = a_all & b_calls
-    b_defines_a_calls = b_all & a_calls
-    shared_context = set(contexts_a) & set(contexts_b)
-
-    return {
-        "a_defines_that_b_calls": sorted(a_defines_b_calls),
-        "b_defines_that_a_calls": sorted(b_defines_a_calls),
-        "shared_diff_context_lines": sorted(shared_context),
-    }
-
-
-
+    return symbols_added, symbols_removed, contexts
 
 
 def main():
@@ -186,14 +185,15 @@ def main():
         print(f"PR A: {example['pr_a']}   |   PR B: {example['pr_b']}")
         print("=" * 70)
 
-        symbols_a, contexts_a = analyze_pr_diff(example["diff_a_path"], f"PR {example['pr_a']}")
-        symbols_b, contexts_b = analyze_pr_diff(example["diff_b_path"], f"PR {example['pr_b']}")
+        symbols_a, removed_a, contexts_a = analyze_pr_diff(example["diff_a_path"], f"PR {example['pr_a']}")
+        symbols_b, removed_b, contexts_b = analyze_pr_diff(example["diff_b_path"], f"PR {example['pr_b']}")
 
-        
-        result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b)
+        result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b,
+                                removed_symbols_a=removed_a, removed_symbols_b=removed_b)
         print(f"\n  >>> Relation engine result:")
         print(f"      Predicted label: {result.label}   (evidence: {sorted(result.conflict_evidence or result.dependency_evidence)})")
         print(f"      Ground-truth label: {label}")
+
 
 if __name__ == "__main__":
     main()

@@ -36,6 +36,7 @@ extract_added_code_and_context() in tree_sitter_poc.py.
 import re
 from dataclasses import dataclass, field
 
+
 # ---------- symbol-name extraction from a hunk-context line ----------
 
 def extract_symbol_name_from_signature(line: str):
@@ -45,6 +46,16 @@ def extract_symbol_name_from_signature(line: str):
     -> 'make_default_short_help'
     or 'class Foo(Bar):' -> 'Foo'
     Returns None if the line doesn't look like a def/class signature.
+
+    NOTE: an earlier version of this also matched module-level constant/
+    dunder collection assignments (e.g. '__all__ = ['), to catch cases
+    like a PR adding an entry to __all__ while another PR imports __all__
+    directly. That was REVERTED after full-dataset evaluation: __all__
+    is too generic a name (nearly every module has one) and this engine
+    has no file-path awareness, so it caused far more false positives
+    (unrelated PRs in different files both touching *a* __all__) than
+    true positives it fixed. Precision dropped 0.800->0.510 on CONFLICT.
+    Re-adding this would need file-path scoping to be safe.
     """
     m = re.match(r"\s*(?:async\s+)?def\s+(\w+)", line)
     if m:
@@ -80,6 +91,30 @@ def get_called_symbols(symbols: dict) -> set:
     return set(symbols["call_leaf_names"])
 
 
+def get_removed_definitions(symbols_added: dict, symbols_removed: dict) -> set:
+    """
+    Symbols that appear as a definition in the REMOVED ('-') lines of a
+    diff but do NOT reappear as a definition in the ADDED ('+') lines —
+    i.e. this PR deletes or renames the function/class entirely, rather
+    than just editing its body.
+
+    This is a distinct, stronger signal than get_modified_symbols():
+    a modification means "the old symbol still exists, but behaves
+    differently"; a removal means "the old symbol may not exist at all
+    anymore" — both are conflict-relevant if another PR still calls it,
+    but removal is the case the previous version of this engine could
+    not see at all, since it never looked at removed ('-') lines.
+
+    symbols_removed may be None (diff had no removed-code extraction
+    available) — treated as no removed definitions.
+    """
+    if not symbols_removed:
+        return set()
+    removed_defs = set(symbols_removed["functions"]) | set(symbols_removed["classes"])
+    still_defined = set(symbols_added["functions"]) | set(symbols_added["classes"])
+    return removed_defs - still_defined
+
+
 # ---------- classification result ----------
 
 @dataclass
@@ -97,21 +132,34 @@ class RelationResult:
 
 
 def classify_pair(symbols_a: dict, contexts_a: list,
-                   symbols_b: dict, contexts_b: list) -> RelationResult:
+                   symbols_b: dict, contexts_b: list,
+                   removed_symbols_a: dict = None,
+                   removed_symbols_b: dict = None) -> RelationResult:
+    """
+    removed_symbols_a / removed_symbols_b are OPTIONAL: the extract_symbols()
+    output run on that PR's REMOVED ('-') diff lines, if you've wired that
+    up (see get_removed_definitions). If omitted, behaves exactly as
+    before (no removed-line signal) — fully backward compatible.
+    """
     a_defined = get_defined_symbols(symbols_a)
     a_modified = get_modified_symbols(contexts_a)
     a_calls = get_called_symbols(symbols_a)
+    a_removed_defs = get_removed_definitions(symbols_a, removed_symbols_a)
 
     b_defined = get_defined_symbols(symbols_b)
     b_modified = get_modified_symbols(contexts_b)
     b_calls = get_called_symbols(symbols_b)
+    b_removed_defs = get_removed_definitions(symbols_b, removed_symbols_b)
 
     # CONFLICT: either side MODIFIES (not just defines) a symbol the
-    # other side depends on, or both sides modify the same symbol.
+    # other side depends on, both sides modify the same symbol, or
+    # either side DELETES/RENAMES a symbol the other side still calls.
     conflict_evidence = set()
     conflict_evidence |= (a_modified & b_calls)
     conflict_evidence |= (b_modified & a_calls)
     conflict_evidence |= (a_modified & b_modified)
+    conflict_evidence |= (a_removed_defs & b_calls)
+    conflict_evidence |= (b_removed_defs & a_calls)
 
     if conflict_evidence:
         return RelationResult(label="CONFLICT", conflict_evidence=conflict_evidence)
@@ -180,7 +228,44 @@ def _self_test():
     print(f"DEPENDENCY example -> got: {result2}   (expected: DEPENDENCY)")
     assert result2.label == "DEPENDENCY", "FAILED: expected DEPENDENCY"
 
+    # --- NEW: removed-definition CONFLICT case (synthetic) ---
+    # PR A fully DELETES a function (it's in removed lines, absent from
+    # added lines). PR B still CALLS that function. Old engine (no
+    # removed_symbols) would see this as INDEPENDENT — nothing in A's
+    # added-lines definitions overlaps B's calls. New engine should
+    # catch it as CONFLICT via get_removed_definitions.
+    symbols_a3_added = {
+        "functions": [], "classes": [], "calls": [], "call_leaf_names": [], "imports": [],
+    }
+    symbols_a3_removed = {
+        "functions": ["legacy_helper"], "classes": [], "calls": [], "call_leaf_names": [], "imports": [],
+    }
+    contexts_a3 = []
+    symbols_b3 = {
+        "functions": [], "classes": [],
+        "calls": ["legacy_helper"], "call_leaf_names": ["legacy_helper"], "imports": [],
+    }
+    contexts_b3 = []
+
+    # Confirm old (4-arg) call still can't see this — proves the gap was real.
+    result3_old = classify_pair(symbols_a3_added, contexts_a3, symbols_b3, contexts_b3)
+    print(f"Removed-def case, WITHOUT removed-symbols -> got: {result3_old}   (expected: INDEPENDENT, proving the old gap)")
+    assert result3_old.label == "INDEPENDENT", "expected the old code path to miss this"
+
+    # Now with removed_symbols wired in:
+    result3_new = classify_pair(symbols_a3_added, contexts_a3, symbols_b3, contexts_b3,
+                                 removed_symbols_a=symbols_a3_removed, removed_symbols_b=None)
+    print(f"Removed-def case, WITH removed-symbols    -> got: {result3_new}   (expected: CONFLICT)")
+    assert result3_new.label == "CONFLICT", "FAILED: expected CONFLICT via removed-definition signal"
+
     print("\nAll self-tests passed.")
+
+
+# NOTE: a __all__-import-awareness self-test used to live here, for a
+# feature that was tried and REVERTED after full-dataset evaluation
+# showed it hurt more than it helped (see extract_symbol_name_from_signature
+# docstring above for details). Removed so this file's tests always
+# reflect actual current behavior.
 
 
 if __name__ == "__main__":
