@@ -61,7 +61,8 @@ def run_comparison(dataset_path: str):
             symbols_a, removed_a, contexts_a = analyze_diff(diff_a)
             symbols_b, removed_b, contexts_b = analyze_diff(diff_b)
             result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b,
-                                    removed_symbols_a=removed_a, removed_symbols_b=removed_b)
+                                    removed_symbols_a=removed_a, removed_symbols_b=removed_b,
+                                    diff_a_path=diff_a, diff_b_path=diff_b)
             confusion_engine[actual][result.label] += 1
         except Exception:
             n_errors += 1

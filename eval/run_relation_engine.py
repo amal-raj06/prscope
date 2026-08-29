@@ -57,7 +57,8 @@ def evaluate(dataset_path: str):
             symbols_a, removed_a, contexts_a = analyze_diff(pair["diff_a_path"])
             symbols_b, removed_b, contexts_b = analyze_diff(pair["diff_b_path"])
             result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b,
-                                    removed_symbols_a=removed_a, removed_symbols_b=removed_b)
+                                    removed_symbols_a=removed_a, removed_symbols_b=removed_b,
+                                    diff_a_path=pair["diff_a_path"], diff_b_path=pair["diff_b_path"])
         except Exception as e:
             errors.append({"index": i, "pool": pair.get("pool"),
                             "pr_a": pair["pr_a"], "pr_b": pair["pr_b"], "error": str(e)})

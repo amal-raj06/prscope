@@ -71,7 +71,8 @@ def main():
     symbols_b, removed_b, contexts_b = dump_pr(pair["diff_b_path"], f"PR {args.pr_b} (B)")
 
     result = classify_pair(symbols_a, contexts_a, symbols_b, contexts_b,
-                            removed_symbols_a=removed_a, removed_symbols_b=removed_b)
+                            removed_symbols_a=removed_a, removed_symbols_b=removed_b,
+                            diff_a_path=pair["diff_a_path"], diff_b_path=pair["diff_b_path"])
     print(f"\n{'=' * 70}\nPredicted: {result.label}   Ground truth: {pair['label']}\n{'=' * 70}")
 
 
