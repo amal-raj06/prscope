@@ -32,9 +32,7 @@ from engine.relation_engine import classify_pair
 # Re-uses the exact same diff-parsing + Tree-sitter extraction functions
 # your POC already validated — no reimplementation, no drift.
 from data.scripts.tree_sitter_poc import extract_code_and_context, extract_symbols
-
-
-LABELS = ["CONFLICT", "DEPENDENCY", "INDEPENDENT"]
+from eval.metrics import LABELS, print_per_class_metrics
 
 
 def analyze_diff(diff_path: str):
@@ -77,37 +75,6 @@ def evaluate(dataset_path: str):
             })
 
     return confusion, errors, misclassified, len(pairs)
-
-
-def print_per_class_metrics(confusion, total_pairs, n_errors):
-    print("=" * 70)
-    print(f"PER-CLASS METRICS  (total pairs: {total_pairs}, parse errors: {n_errors})")
-    print("=" * 70)
-    print(f"{'Class':<13}{'Precision':<12}{'Recall':<12}{'F1':<10}{'Support'}")
-
-    overall_correct = 0
-    overall_total = 0
-
-    for label in LABELS:
-        tp = confusion[label][label]
-        fn = sum(confusion[label][pred] for pred in LABELS if pred != label)
-        fp = sum(confusion[actual][label] for actual in LABELS if actual != label)
-        support = tp + fn
-
-        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-        f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) > 0 else 0.0
-
-        print(f"{label:<13}{precision:<12.3f}{recall:<12.3f}{f1:<10.3f}{support}")
-
-        overall_correct += tp
-        overall_total += support
-
-    overall_acc = overall_correct / overall_total if overall_total > 0 else 0.0
-    print(f"\nOverall accuracy: {overall_acc:.3f}  "
-          f"(shown for reference only — per-class numbers above are what matter "
-          f"given class imbalance: {sum(confusion[l][l2] for l in LABELS for l2 in LABELS if l=='INDEPENDENT')} "
-          f"of {overall_total} pairs are INDEPENDENT)")
 
 
 def print_misclassified(misclassified, max_show=20):
