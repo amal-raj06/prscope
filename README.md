@@ -49,7 +49,9 @@ sequenceDiagram
     UI->>UI: highlight_evidence() - Tag Collision Nodes
     UI->>UI: cy.layout() - Render Directed Graph
 
-    ```flowchart TD
+    
+```mermaid
+    flowchart TD
     Start([Start: classify_pair]) --> Extract[Extract AST Symbols for PR A & PR B]
     
     Extract --> EvalConflict{Structural Collision?}
@@ -71,3 +73,4 @@ sequenceDiagram
     style ConflictState fill:#ffebe9,stroke:#cf222e,stroke-width:2px,color:#cf222e
     style DependencyState fill:#fff8c5,stroke:#9a6700,stroke-width:2px,color:#9a6700
     style IndependentState fill:#e6ffed,stroke:#1a7f37,stroke-width:2px,color:#1a7f37
+    ```
