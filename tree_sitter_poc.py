@@ -20,69 +20,61 @@ import argparse
 from pathlib import Path
 
 import tree_sitter_python as tspython
+import tree_sitter_c as tsc
+import tree_sitter_cpp as tscpp
+import tree_sitter_java as tsjava
 from tree_sitter import Language, Parser
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from engine.relation_engine import classify_pair
 
+def get_parser(extension: str) -> Parser:
+    """Dynamically loads the correct Tree-sitter grammar based on target file extension."""
+    if extension == '.c':
+        lang = Language(tsc.language())
+    elif extension in ('.cpp', '.cc', '.h', '.hpp'):
+        lang = Language(tscpp.language())
+    elif extension == '.java':
+        lang = Language(tsjava.language())
+    else:
+        lang = Language(tspython.language()) # Default to Python
+    return Parser(lang)
 
-# ---------- Tree-sitter setup ----------
-PY_LANGUAGE = Language(tspython.language())
-parser = Parser(PY_LANGUAGE)
 
 
 # ---------- Diff parsing helpers ----------
 
 def extract_code_and_context(diff_path: str):
-    """
-    Reads a unified .diff file and returns:
-      - added_code: all '+' (added) lines, concatenated, for AST parsing
-      - removed_code: all '-' (removed) lines, concatenated, for AST parsing
-      - hunk_contexts: the function/class signature git shows after each @@ header
-                        (git includes nearby enclosing-function context automatically)
-
-    Parsing removed_code lets us catch a case added-lines-only parsing
-    can NEVER see: a PR that deletes or renames a function entirely
-    (rather than editing its body) — that only shows up in '-' lines.
-
-    NOTE: a version of this also scanned every line in the hunk BODY
-    (not just the header) for module-level constant/collection
-    assignments like '__all__ = [', to catch cases where that
-    assignment line itself was unchanged context rather than an added/
-    removed line. That was REVERTED — see relation_engine.py's
-    extract_symbol_name_from_signature docstring for why (it hurt
-    precision more than it helped recall on full-dataset evaluation).
-    """
     text = Path(diff_path).read_text(encoding="utf-8", errors="ignore")
     lines = text.splitlines()
 
-    added_lines = []
-    removed_lines = []
-    hunk_contexts = []
-
+    added_lines, removed_lines, hunk_contexts = [], [], []
     hunk_header_re = re.compile(r"^@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@\s*(.*)$")
+    target_ext = ".py"  # Default
 
     for line in lines:
+        if line.startswith("+++ b/"):
+            target_ext = Path(line[6:].strip()).suffix.lower()
+            continue
         header_match = hunk_header_re.match(line)
         if header_match:
             context = header_match.group(1).strip()
-            if context:
-                hunk_contexts.append(context)
+            if context: hunk_contexts.append(context)
             continue
         if line.startswith("+++") or line.startswith("---"):
             continue
         if line.startswith("+"):
-            added_lines.append(line[1:])  # strip the leading '+'
+            added_lines.append(line[1:])
         elif line.startswith("-"):
-            removed_lines.append(line[1:])  # strip the leading '-'
+            removed_lines.append(line[1:])
 
     added_code = "\n".join(added_lines)
     removed_code = "\n".join(removed_lines)
-    return added_code, removed_code, hunk_contexts
+    return added_code, removed_code, hunk_contexts, target_ext
 
 
 # ---------- Tree-sitter extraction ----------
 
-def extract_symbols(code: str):
+def extract_symbols(code: str, parser: Parser):
     """
     Parses `code` with Tree-sitter and walks the AST to pull out:
       - function definitions
@@ -99,27 +91,27 @@ def extract_symbols(code: str):
     functions, classes, calls, call_leaf_names, imports = [], [], [], [], []
 
     def walk(node):
-        if node.type == "function_definition":
+        # Look for both Python and Java/C++ naming conventions
+        if node.type in ("function_definition", "method_declaration"):
             name_node = node.child_by_field_name("name")
             if name_node:
                 functions.append(name_node.text.decode("utf-8"))
-        elif node.type == "class_definition":
+                
+        elif node.type in ("class_definition", "class_declaration"):
             name_node = node.child_by_field_name("name")
             if name_node:
                 classes.append(name_node.text.decode("utf-8"))
-        elif node.type == "call":
-            fn_node = node.child_by_field_name("function")
+                
+        elif node.type in ("call", "method_invocation", "call_expression"):
+            # Python uses 'function' field, Java uses 'name' field
+            fn_node = node.child_by_field_name("function") or node.child_by_field_name("name")
             if fn_node:
                 full_call_text = fn_node.text.decode("utf-8")
                 calls.append(full_call_text)
-                # Also record just the last piece (e.g. "auth.validate" -> "validate")
-                # so a method call can be matched against a bare function/method
-                # definition name found elsewhere. This is what actually lets us
-                # notice that PR B calling "auth.validate()" touches the same
-                # "validate" that PR A just defined.
                 leaf_name = full_call_text.split(".")[-1]
                 call_leaf_names.append(leaf_name)
-        elif node.type in ("import_statement", "import_from_statement"):
+                
+        elif node.type in ("import_statement", "import_from_statement", "import_declaration"):
             imports.append(node.text.decode("utf-8").strip())
 
         for child in node.children:
@@ -138,7 +130,9 @@ def extract_symbols(code: str):
 
 def analyze_pr_diff(diff_path: str, label: str):
     print(f"\n  --- {label}: {diff_path} ---")
-    added_code, removed_code, contexts = extract_code_and_context(diff_path)
+    added_code, removed_code, contexts, target_ext = extract_code_and_context(diff_path)
+
+    parser = get_parser(target_ext)
 
     if contexts:
         print(f"  Enclosing function/class context (from diff hunk headers):")
@@ -147,8 +141,8 @@ def analyze_pr_diff(diff_path: str, label: str):
     else:
         print("  (no enclosing-function context found in diff headers)")
 
-    symbols_added = extract_symbols(added_code)
-    symbols_removed = extract_symbols(removed_code)
+    symbols_added = extract_symbols(added_code, parser)
+    symbols_removed = extract_symbols(removed_code, parser)
 
     print(f"  Functions defined/touched : {symbols_added['functions'] or '(none found)'}")
     print(f"  Classes defined/touched   : {symbols_added['classes'] or '(none found)'}")

@@ -1,0 +1,8 @@
+--- a/src/Auth.java
++++ b/src/Auth.java
+@@ -10,2 +10,5 @@
+-    public void oldLogin() { }
++    public void newLogin() {
++        System.out.println("Starting...");
++        verifyToken();
++    }
