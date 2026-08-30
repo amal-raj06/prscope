@@ -1,6 +1,3 @@
-# prscope
-AST-driven structural analysis to catch silent cross-PR conflicts Git diff can't see. Built for DevJams'26
-
 # PRScope: Proactive Structural Dependency Radar
 
 ## 🚀 The Git Blind Spot (The Problem)
@@ -51,3 +48,26 @@ sequenceDiagram
     UI->>UI: formatDiff() - Apply Git Red/Green Colors
     UI->>UI: highlight_evidence() - Tag Collision Nodes
     UI->>UI: cy.layout() - Render Directed Graph
+
+flowchart TD
+    Start([Start: classify_pair]) --> Extract[Extract AST Symbols for PR A & PR B]
+    
+    Extract --> EvalConflict{Structural Collision?}
+    
+    EvalConflict -- "PR A modifies function called by PR B\nOR\nPR B modifies function called by PR A" --> ConflictState[Priority 1: Escalate to CONFLICT]
+    
+    EvalConflict -- "No Cross-Modification" --> EvalDependency{Shared Logic?}
+    
+    EvalDependency -- "Both PRs call the same function\nOR\nBoth PRs modify the same class" --> DependencyState[Priority 2: Flag as DEPENDENCY]
+    
+    EvalDependency -- "No overlap detected" --> IndependentState[Flag as INDEPENDENT]
+    
+    ConflictState --> FormResult[Construct JSON Payload with Evidence Nodes]
+    DependencyState --> FormResult
+    IndependentState --> FormResult
+    
+    FormResult --> End([End: Return Result to API])
+
+    style ConflictState fill:#ffebe9,stroke:#cf222e,stroke-width:2px,color:#cf222e
+    style DependencyState fill:#fff8c5,stroke:#9a6700,stroke-width:2px,color:#9a6700
+    style IndependentState fill:#e6ffed,stroke:#1a7f37,stroke-width:2px,color:#1a7f37
