@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRScope</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <style>
+        body { margin: 0; font-family: 'Inter', sans-serif; display: flex; height: 100vh; background: #FFFFFF; color: #1F2328; }
+        #left-panel { width: 45%; border-right: 1px solid #E1E4E8; display: flex; flex-direction: column; }
+        #header { padding: 20px; border-bottom: 1px solid #E1E4E8; }
+        #controls { padding: 20px; background: #F6F8FA; border-bottom: 1px solid #E1E4E8; display: flex; gap: 10px; }
+        input, select { flex: 1; padding: 8px; border: 1px solid #E1E4E8; border-radius: 4px; font-family: 'JetBrains Mono', monospace; }           button { background: #0969DA; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        button:hover { background: #005cc5; }
+        #cy { flex: 1; background: #FFFFFF; }
+        
+        #right-panel { width: 55%; display: flex; background: #F6F8FA; }
+        .code-col { flex: 1; padding: 20px; overflow-y: auto; border-left: 1px solid #E1E4E8; }
+        .code-col h3 { margin-top: 0; font-size: 14px; color: #57606A; }
+        
+        #status-banner { padding: 10px 20px; font-weight: 600; text-align: center; color: white; display: none; }
+        .CONFLICT { background: #CF222E; }
+        .DEPENDENCY { background: #9A6700; }
+        .INDEPENDENT { background: #2DA44E; }
+
+        .diff-add { background-color: #e6ffed; color: #1a7f37; display: block; }
+        .diff-remove { background-color: #ffebe9; color: #cf222e; display: block; }
+        .diff-header { color: #0969da; background-color: #ddf4ff; display: block; padding: 2px 0; }
+        .highlight-evidence { background-color: #fff8c5; font-weight: bold; color: #9a6700; border-radius: 3px; padding: 0 3px; }
+        pre div { padding: 0 4px; }
+    </style>
+</head>
+<body>
+
+<div id="left-panel">
+    <div id="header">
+        <h2 style="margin:0;">PRScope</h2>
+        <p style="margin:5px 0 0 0; font-size: 14px; color: #57606A;">Structural Dependency Radar</p>
+    </div>
+    
+    <div id="status-banner"></div>
+
+    <div id="controls">
+        <select id="pr-a"></select>
+        <select id="pr-b"></select>
+        <button onclick="runAnalysis()">Analyze</button>
+    </div>
+    
+    <div id="cy"></div>
+</div>
+
+<div id="right-panel">
+    <div class="code-col" id="code-a">
+        <h3>PR A Content (Will load dynamically)</h3>
+        <pre></pre>
+    </div>
+    <div class="code-col" id="code-b">
+        <h3>PR B Content (Will load dynamically)</h3>
+        <pre></pre>
+    </div>
+</div>
+
+<script>
+    // Auto-populate PR dropdowns
+    function loadDropdowns() {
+        const selectA = document.getElementById('pr-a');
+        const selectB = document.getElementById('pr-b');
+        const basePath = "BulkPR-Bench-Release/data/pools/click/diffs/PR-";
+
+        // Generate options for PR-01 to PR-30
+        for (let i = 1; i <= 30; i++) {
+            let num = i.toString().padStart(2, '0');
+            let fullPath = `${basePath}${num}.diff`;
+            
+            selectA.add(new Option(`PR-${num}.diff`, fullPath));
+            selectB.add(new Option(`PR-${num}.diff`, fullPath));
+        }
+
+        // Set default winning demo state
+        selectA.value = `${basePath}05.diff`;
+        selectB.value = `${basePath}26.diff`;
+    }
+
+    // Run this function immediately when the page loads
+    window.onload = loadDropdowns;
+    // Initialize empty graph
+    let cy = cytoscape({
+        container: document.getElementById('cy'),
+        style: [
+            { selector: 'node', style: {
+                'label': 'data(label)', 'text-valign': 'center', 'color': '#1F2328', 
+                'background-color': '#FFFFFF', 'border-width': 2, 'border-color': '#1F2328',
+                'font-family': 'JetBrains Mono', 'font-size': '12px'
+            }},
+            { selector: 'node.pr', style: { 'shape': 'ellipse', 'width': '60px', 'height': '60px', 'font-weight': 'bold' }},
+            { selector: 'node.ast', style: { 'shape': 'round-rectangle', 'width': 'label', 'padding': '10px', 'background-color': '#F6F8FA', 'border-color': '#E1E4E8' }},
+            { selector: 'edge', style: {
+                'width': 2, 'target-arrow-shape': 'triangle', 'curve-style': 'bezier'
+            }},
+            { selector: 'edge.modifies', style: { 'line-color': '#CF222E', 'target-arrow-color': '#CF222E' }},
+            { selector: 'edge.calls', style: { 'line-color': '#9A6700', 'target-arrow-color': '#9A6700', 'line-style': 'dashed' }}
+        ]
+    });
+    function formatDiff(text, evidenceList) {
+        if (!text) return "";
+        const lines = text.split('\n');
+        let html = '';
+        
+        for (let line of lines) {
+            // Escape HTML to prevent rendering bugs
+            let escapedLine = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            // Highlight the exact function/class causing the conflict
+            if (evidenceList && evidenceList.length > 0) {
+                evidenceList.forEach(term => {
+                    if (term && escapedLine.includes(term)) {
+                        const regex = new RegExp(term, "g");
+                        escapedLine = escapedLine.replace(regex, `<span class="highlight-evidence">${term}</span>`);
+                    }
+                });
+            }
+
+            // Apply Git diff red/green line colors
+            if (line.startsWith('+') && !line.startsWith('+++')) {
+                html += `<div class="diff-add">${escapedLine}</div>`;
+            } else if (line.startsWith('-') && !line.startsWith('---')) {
+                html += `<div class="diff-remove">${escapedLine}</div>`;
+            } else if (line.startsWith('@@')) {
+                html += `<div class="diff-header">${escapedLine}</div>`;
+            } else {
+                html += `<div>${escapedLine}</div>`;
+            }
+        }
+        return html;
+    }
+    async function runAnalysis() {
+        const pathA = document.getElementById('pr-a').value;
+        const pathB = document.getElementById('pr-b').value;
+        const banner = document.getElementById('status-banner');
+        const btn = document.querySelector('button');
+
+        btn.innerText = "Analyzing...";
+        
+        try {
+            const response = await fetch('http://127.0.0.1:8000/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path_a: pathA, path_b: pathB })
+            });
+            
+            if (!response.ok) {
+                const errData = await response.json();
+                alert("Backend Error: " + errData.detail);
+                btn.innerText = "Analyze";
+                return;
+            }
+
+            const data = await response.json();
+            
+            // 1. Update Banner
+            banner.className = data.prediction;
+            banner.innerText = data.prediction + " DETECTED";
+            banner.style.display = "block";
+
+            // 2. Define Evidence List
+            const evidenceList = data.prediction === "CONFLICT" ? data.evidence.conflict_nodes : data.evidence.dependency_nodes;
+
+            // 3. Populate Code Panels (Now safely using evidenceList)
+            document.querySelector('#code-a pre').innerHTML = formatDiff(data.diff_a, evidenceList);
+            document.querySelector('#code-b pre').innerHTML = formatDiff(data.diff_b, evidenceList);
+
+            // 4. Map Graph Nodes
+            let elements = [
+                { data: { id: 'prA', label: 'PR A' }, classes: 'pr' },
+                { data: { id: 'prB', label: 'PR B' }, classes: 'pr' }
+            ];
+
+            evidenceList.forEach((ev, idx) => {
+                const astId = `ast_${idx}`;
+                elements.push({ data: { id: astId, label: ev }, classes: 'ast' });
+                
+                // Add Edges based on prediction type
+                if (data.prediction === "CONFLICT") {
+                    elements.push({ data: { source: 'prA', target: astId }, classes: 'calls' });
+                    elements.push({ data: { source: 'prB', target: astId }, classes: 'modifies' });
+                } else if (data.prediction === "DEPENDENCY") {
+                    elements.push({ data: { source: 'prA', target: astId }, classes: 'calls' });
+                    elements.push({ data: { source: 'prB', target: astId }, classes: 'calls' });
+                }
+            });
+
+            cy.elements().remove();
+            cy.add(elements);
+            cy.layout({ name: 'breadthfirst', directed: true, spacingFactor: 1.5 }).run();
+
+        } catch (err) {
+            alert("Real Error: " + err.message);
+            console.error(err);
+        }
+        
+        btn.innerText = "Analyze";
+    }
+</script>
+</body>
+</html>
