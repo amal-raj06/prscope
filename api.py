@@ -3,14 +3,13 @@ PRScope - FastAPI Backend
 -------------------------
 Run with: uvicorn api:app --reload
 """
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pathlib import Path
 
 # Import your deterministic engine components
-from tree_sitter_poc import extract_code_and_context, extract_symbols
+from tree_sitter_poc import extract_code_and_context, extract_symbols, get_parser
 from engine.relation_engine import classify_pair
 
 app = FastAPI(title="PRScope API")
@@ -33,19 +32,32 @@ async def analyze_prs(request: PRAnalysisRequest):
     path_a = Path(request.path_a)
     path_b = Path(request.path_b)
    
-
     if not path_a.exists() or not path_b.exists():
         raise HTTPException(status_code=404, detail="One or both diff files could not be found.")
 
     # 1. AST Extraction
-    added_a, rem_a, ctx_a = extract_code_and_context(str(path_a))
-    added_b, rem_b, ctx_b = extract_code_and_context(str(path_b))
+    # Process PR A
+    added_a, removed_a, contexts_a, ext_a = extract_code_and_context(path_a)
+    parser_a = get_parser(ext_a)
+    symbols_a = extract_symbols(added_a, parser_a)
+    removed_symbols_a = extract_symbols(removed_a, parser_a)
     
-    sym_a, rem_sym_a = extract_symbols(added_a), extract_symbols(rem_a)
-    sym_b, rem_sym_b = extract_symbols(added_b), extract_symbols(rem_b)
+    # Process PR B
+    added_b, removed_b, contexts_b, ext_b = extract_code_and_context(path_b)
+    parser_b = get_parser(ext_b)
+    symbols_b = extract_symbols(added_b, parser_b)
+    removed_symbols_b = extract_symbols(removed_b, parser_b)
     
     # 2. Deterministic Rule Engine Execution
-    result = classify_pair(sym_a, ctx_a, sym_b, ctx_b, rem_sym_a, rem_sym_b, str(path_a), str(path_b))
+    # Feed the extracted AST symbols into the deterministic engine
+    result = classify_pair(
+        symbols_a=symbols_a, 
+        contexts_a=contexts_a, 
+        symbols_b=symbols_b, 
+        contexts_b=contexts_b,
+        removed_symbols_a=removed_symbols_a, 
+        removed_symbols_b=removed_symbols_b
+    )
 
     # 3. JSON Serialization for Cytoscape.js
     return {
@@ -58,6 +70,7 @@ async def analyze_prs(request: PRAnalysisRequest):
         "diff_a": path_a.read_text(encoding="utf-8", errors="ignore"),
         "diff_b": path_b.read_text(encoding="utf-8", errors="ignore")       
     }
+
 @app.get("/")
 async def root():
     return {"message": "PRScope Engine API is running. Ready for POST requests at /analyze."}
